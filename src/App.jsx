@@ -31,32 +31,45 @@ function App() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, age, gender, phone, address } = form;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const { name, age, gender, phone, address } = form;
 
-    try {
-      await db.exec({
-        sql: `
-          INSERT INTO patients (name, age, gender, phone, address)
-          VALUES (?, ?, ?, ?, ?);
-        `,
-        args: [name, parseInt(age), gender, phone, address],
-      });
+  try {
+    // Use parameterized query to prevent SQL injection
+    await db.query(
+      `INSERT INTO patients (name, age, gender, phone, address) VALUES ($1, $2, $3, $4, $5);`,
+      [name, parseInt(age), gender, phone, address]
+    );
 
-      setStatus('✅ Patient registered successfully!');
-      setForm({
-        name: '',
-        age: '',
-        gender: '',
-        phone: '',
-        address: '',
-      });
-    } catch (err) {
-      console.error('Error inserting patient:', err);
-      setStatus('❌ Failed to register patient');
+    // Verify insertion
+    const result = await db.query(
+      `SELECT * FROM patients WHERE name = $1 AND phone = $2 ORDER BY id DESC LIMIT 1;`,
+      [name, phone]
+    );
+
+    console.log("Inserted patient:", result);
+
+    if (result.rows.length > 0) {
+      setStatus(`✅ Patient "${result.rows[0].name}" registered successfully!`);
+    } else {
+      setStatus("⚠️ Registration might have failed.");
     }
-  };
+
+    // Reset form
+    setForm({
+      name: '',
+      age: '',
+      gender: '',
+      phone: '',
+      address: '',
+    });
+  } catch (err) {
+    console.error('❌ Error inserting patient:', err);
+    setStatus('❌ Failed to register patient');
+  }
+};
+
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>

@@ -11,14 +11,15 @@ export async function initializeDb() {
 await db.exec(`
   DROP TABLE IF EXISTS patients;
 
-  CREATE TABLE patients (
-    id INTEGER PRIMARY KEY,
+ CREATE TABLE IF NOT EXISTS patients (
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     age INTEGER,
     gender TEXT,
-    phone TEXT,        
-    address TEXT, 
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+    phone TEXT,
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `)}
 
 export default db;
