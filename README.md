@@ -2,6 +2,7 @@
 
 An application to register and query patients. Uses Pglite for data storage.
 
+Vercel link to use app: https://medapp-henna.vercel.app/ 
 ## Setup
 
 ```bash
