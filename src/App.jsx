@@ -21,7 +21,23 @@ function App() {
   const liveQueryRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [queryRunning, setQueryRunning] = useState(false);
+  const inputStyle = {
+  width: '40vw',
+  padding: '0.5rem',
+  fontSize: '1rem',
+  border: '1px solid #ccc',
+  borderRadius: '4px',
+  boxSizing: 'border-box'
+};
 
+useEffect(() => {
+  if (status) {
+    window.scrollBy({
+      top: window.innerHeight/3,
+      behavior: 'smooth'
+    });
+  }
+}, [queryResult]);
 
 
  useEffect(() => {
@@ -121,6 +137,7 @@ function App() {
 
       setQueryResult({ columns, rows });
       setStatus('✅ Query executed successfully!');
+      
     });
 
     liveQueryRef.current = subscription;
@@ -140,57 +157,186 @@ function App() {
 
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>Patient Database</h1>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Name:</label><br />
-          <input type="text" name="name" value={form.name} onChange={handleChange} required />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Age:</label><br />
-          <input type="number" name="age" value={form.age} onChange={handleChange} required />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Gender:</label><br />
-          <select name="gender" value={form.gender} onChange={handleChange} required>
-            <option value="">Select</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Phone:</label><br />
-          <input type="tel" name="phone" value={form.phone} onChange={handleChange} required />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Address:</label><br />
-          <textarea name="address" value={form.address} onChange={handleChange} required />
-        </div>
-        <button type="submit" disabled={isSubmitting}>
-  {isSubmitting ? 'Registering...' : 'Register'}
-</button>
-       </form>
+    <div style={{ fontFamily: 'sans-serif', maxWidth: '600px' }}>
+<div style={{ 
+  width: '100vw', 
+  display: 'flex', 
+  justifyContent: 'center', 
+  alignItems: 'center'
+}}>
+  <h1>Patient Database</h1>
+</div>
+<div style={{ 
+  width: '100vw', 
+  display: 'flex', 
+  justifyContent: 'center', 
+  alignItems: 'center' 
+}}>
+  <div style={{ 
+    marginLeft:'5vw',
+     width: '40vw', 
+  display: 'flex', 
+  flexDirection:'column',
+  justifyContent: 'center', 
+  alignItems: 'center', 
+}}>
+      <form onSubmit={handleSubmit} style={{
+  padding: '1rem',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  backgroundColor: '#115599',
+  alignItems:'center',
+  justifyContent:'center',
+  display:'flex',
+  flexDirection:'column'
 
-      <p>{status}</p>
-      <hr style={{ margin: '2rem 0' }} />
+}}>  
+<h2>Register New Patient</h2>
 
+  <div style={{ marginBottom: '1rem' }}>
+    <label>Name:</label><br />
+    <input 
+      type="text" 
+      name="name" 
+      value={form.name} 
+      onChange={handleChange} 
+      required 
+      style={inputStyle} 
+    />
+  </div>
+
+  <div style={{ marginBottom: '1rem' }}>
+    <label>Age:</label><br />
+    <input 
+      type="number" 
+      name="age" 
+      value={form.age} 
+      onChange={handleChange} 
+      required 
+      style={inputStyle} 
+      min="0"
+    />
+  </div>
+
+  <div style={{ marginBottom: '1rem' }}>
+    <label>Gender:</label><br />
+    <select 
+      name="gender" 
+      value={form.gender} 
+      onChange={handleChange} 
+      required 
+      style={inputStyle}
+    >
+      <option value="">Select</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div style={{ marginBottom: '1rem' }}>
+    <label>Phone:</label><br />
+    <input 
+      type="tel" 
+      name="phone" 
+      value={form.phone} 
+      onChange={handleChange} 
+      required 
+      style={inputStyle} 
+    />
+  </div>
+
+  <div style={{ marginBottom: '1rem' }}>
+    <label>Address:</label><br />
+    <textarea 
+      name="address" 
+      value={form.address} 
+      onChange={handleChange} 
+      required 
+      style={{ ...inputStyle, height: '80px', resize: 'vertical' }} 
+    />
+  </div>
+
+  <div style={{ textAlign: 'center' }}>
+    <button 
+      type="submit" 
+      disabled={isSubmitting} 
+      style={{
+        padding: '0.5rem 1.5rem',
+        fontSize: '1rem',
+        cursor: 'pointer',
+        borderRadius: '4px',
+        backgroundColor: '#007bff',
+        color: '#fff',
+        border: 'none'
+      }}
+    >
+      {isSubmitting ? 'Registering...' : 'Register'}
+    </button>
+  </div>
+</form>
+
+       </div>
+       <div style={{width:'12vw'}}>
+
+       </div>
+       <div style={{
+             width: '40vw', 
+  display: 'flex', 
+  flexDirection:'column',
+  justifyContent: 'center', 
+  alignItems: 'center', 
+  marginRight:'5vw'
+       }}>
+       <div style={{ 
+  width:'100%',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  backgroundColor: '#115599',
+  alignItems:'center',
+  justifyContent:'center',
+  display:'flex',
+  flexDirection:'column',
+    padding: '1rem',
+
+  }}>
       <h2>Query Patients</h2>
       <textarea
-        style={{ width: '100%', height: '100px', fontFamily: 'monospace', fontSize: '1rem' }}
+        style={{ width: '80%', height: '100px', fontFamily: 'monospace', fontSize: '1rem',marginBottom:'1rem' }}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button onClick={runQuery} disabled={queryRunning} style={{ marginTop: '0.5rem' }}>
+      <button onClick={runQuery} disabled={queryRunning} style={{
+        padding: '0.5rem 1.5rem',
+        fontSize: '1rem',
+        cursor: 'pointer',
+        borderRadius: '4px',
+        backgroundColor: '#007bff',
+        color: '#fff',
+        border: 'none'
+      }}>
   {queryRunning ? 'Running...' : 'Run Query'}
 </button>
-
+</div>
+</div>
+</div>
+<div style={{ 
+  marginLeft:'10vw',
+  width: '80vw', 
+  display: 'flex', 
+  flexDirection:'column',
+  justifyContent: 'center',
+  alignItems: 'center' 
+}}>
+      <p>{status}</p>
 
       {queryError && <p style={{ color: 'red' }}>Error: {queryError}</p>}
 
       {queryResult && queryResult.columns.length > 2?(
-        <table border="1" cellPadding="8" style={{ marginTop: '1rem', width: '100%', borderCollapse: 'collapse' }}>
+         <div style={{ width: '100%', overflowX: 'auto', marginTop: '1rem' }}>
+        <table border="1" cellPadding="8" style={{marginTop: '1rem', width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               {queryResult.columns.map((col) => (
@@ -213,7 +359,9 @@ function App() {
             ))}
           </tbody>
         </table>
+        </div>
       ): null}
+      </div>
     </div>
   );
 }
