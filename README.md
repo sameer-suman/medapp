@@ -11,6 +11,7 @@ cd medapp
 npm install
 npm run dev
 Then open the activated development server in your browser to use the app.
+```
 
 Usage:
 Register patients via the form.
