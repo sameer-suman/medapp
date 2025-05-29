@@ -13,13 +13,16 @@ npm run dev
 Then open the activated development server in your browser to use the app.
 ```
 
-Usage:\
+Usage:
+
 Register patients via the form.\
 Run SQL queries in the query box to the table 'patients'.\
-Supports all SQL query types but if the table is dropped, the site needs to be refreshed.\
+Supports all SQL query types but if the table is dropped, the site needs to be refreshed.
 
 
-Challenges faced:\
+\
+Challenges faced:
+
 Fixing bundler error.\
 Parameterising queries.\
 Persisting the data across refreshes.\
