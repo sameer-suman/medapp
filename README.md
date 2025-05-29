@@ -1,12 +1,25 @@
-# React + Vite
+# Patient Database App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An application to register and query patients. Uses Pglite for data storage.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+git clone https://github.com/sameer-suman/medapp.git
+cd medapp
+npm install
+npm run dev
+Then open the activated development server in your browser to use the app.
 
-## Expanding the ESLint configuration
+Usage:
+Register patients via the form.
+Run SQL queries in the query box to the table 'patients'.
+Supports all SQL query types but if the table is dropped, the site needs to be refreshed.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+Challenges faced:
+Fixing bundler error.
+Parameterising queries.
+Persisting the data across refreshes.
+Implementing multi-tab worker.
+Using live query to update the table across tabs when new patient is inserted.
