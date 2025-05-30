@@ -112,7 +112,13 @@ useEffect(() => {
   };
 
  const runQuery = async () => {
+    if (!query.trim()) {
+    alert('Enter some query');
+    return;
+  }
+
   if (queryRunning) return;
+
   setQueryRunning(true);
 
   setQueryError(null);
@@ -304,9 +310,11 @@ useEffect(() => {
   }}>
       <h2>Query Patients</h2>
       <textarea
+        required
         style={{ width: '80%', height: '100px', fontFamily: 'monospace', fontSize: '1rem',marginBottom:'1rem' }}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        
       />
       <button onClick={runQuery} disabled={queryRunning} style={{
         padding: '0.5rem 1.5rem',
@@ -334,7 +342,7 @@ useEffect(() => {
 
       {queryError && <p style={{ color: 'red' }}>Error: {queryError}</p>}
 
-      {queryResult && queryResult.columns.length > 2?(
+      {query.trim().toLowerCase().startsWith('select') && queryResult && queryResult.rows.length >= 0 ? (
          <div style={{ width: '100%', overflowX: 'auto', marginTop: '1rem' }}>
         <table border="1" cellPadding="8" style={{marginTop: '1rem', width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -344,20 +352,22 @@ useEffect(() => {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {queryResult.rows.map((row, index) => (
-  <tr key={row.id ?? index}>
+<tbody>
+  {queryResult.rows.map((row, index) => (
+    <tr key={row.id ?? index}>
+      {queryResult.columns.map((col) => (
+        <td key={col}>
+          {
+            col === 'created_at'
+              ? new Date(row[col] + 'Z').toLocaleString()
+              : row[col]
+          }
+        </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
 
-                <td>{row.id}</td>
-                <td>{row.name}</td>
-                <td>{row.age}</td>
-                <td>{row.gender}</td>
-                <td>{row.phone}</td>
-                <td>{row.address}</td>
-<td>{new Date(row.created_at + 'Z').toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
         </table>
         </div>
       ): null}
